@@ -1,0 +1,46 @@
+.post-entire {
+
+}
+
+.post-frame img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 12px;
+  display: block;
+}
+
+
+.grid-container{
+          clear: both;
+          padding-top: 70px;
+          text-align: center;
+        }
+
+
+.grid {
+  margin: 15px 27px;
+   display: inline-block;
+}
+
+
+
+.container {
+  width: 350px;
+  height: 500px;
+  perspective: 800px;
+}
+
+.container:hover > .card {
+  cursor: pointer;
+  transform: rotateY(180deg);
+}
+
+.card {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  transition: transform 1500ms;
+  transform-style: preserve-3d;
+}
