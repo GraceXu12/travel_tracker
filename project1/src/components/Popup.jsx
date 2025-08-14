@@ -12,7 +12,7 @@ function Popup({onClose}) {
     let uploadPromise= null;
 
 
-    async function uploadPic(obj){
+    async function uploadPic(obj, pageName){
        
         // e is event object that browser passes to even handler function 
        
@@ -45,8 +45,9 @@ function Popup({onClose}) {
         await fetch("http://localhost:5000/save-photo", { // adjust port if needed
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url: json.url })
+            body: JSON.stringify({ url: json.url , page: pageName})
         });
+        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
         setIsUploading(false);
 
         return json.url
@@ -63,7 +64,7 @@ function Popup({onClose}) {
         // saves URL in state variable file
         setFile(URL.createObjectURL(file));
        // uploadPromise = uploadPic(file);
-        await uploadPic(file);
+        await uploadPic(file, "MainPage");
         //await uploadPromise;
 
     }
@@ -91,6 +92,7 @@ function Popup({onClose}) {
                 left: 0,
                 backgroundColor: 'rgba(0, 0, 0, 0.3)',
                 backdropFilter: 'blur(4px)',
+                zIndex: 2000
                 
         }}>
             <div style={{

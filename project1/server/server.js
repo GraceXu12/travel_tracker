@@ -18,10 +18,13 @@ const client = new MongoClient(process.env.ATLAS_URI);
 let photosCollection; // hold photos data
 let isConnected = false;
 
+
+
 async function connectDB() {
   try {
     await client.connect();
     photosCollection = client.db("projectTravelDiary").collection("photos"); // picks specific DB and collection
+     
     isConnected = true;
     //console.log("✅ Connected to MongoDB");
   } catch (error) {
@@ -51,20 +54,29 @@ connectDB().then(() => {
 // Save photo URL
 app.post("/save-photo", async (req, res) => {
   try {
+    console.log("Trying to save picture right now ------------------");
     if (!isConnected) {
       return res.status(500).json({ error: "Database not connected" });
     }
 
-    const { url } = req.body; // extract url from request body
+    const { url, page, number } = req.body; // extract url from request body
     if (!url) return res.status(400).json({ error: "URL is required" });
-
+    if (!page) return res.status(400).json({ error: "Page is required" })
+    console.log("-------Photo saved:", url);
     // calls DB method to save new photo 
+
+    const nextNumber = number ?? (await photosCollection.countDocuments({ page })) + 1;
     const result = await photosCollection.insertOne({
       url,
+      page, // store page name here
+      number: nextNumber, // number each pic
       uploadedAt: new Date()
     });
+    console.log("number of photo is ",number )
+     console.log("Nextnumber of photo is ",nextNumber )
 
     console.log("Photo saved:", result.insertedId);
+    
     res.json({ message: "Photo saved", id: result.insertedId }); // sends confirmation to client
   } catch (err) {
     console.error("Error saving photo:", err);
@@ -87,7 +99,15 @@ app.get('/photos', async (req, res) => {
       return res.status(500).json({ error: "Collection not initialized" });
     }
 
-    const photos = await photosCollection.find({}).toArray();
+    const {page, number} = req.query;
+
+    const query = page ==="MainPage" ? {page} : {page, number};
+
+  
+    
+  
+    const photos = await photosCollection.find(query).toArray();
+
     console.log(`Found ${photos.length} photos`);
     res.json(photos);
   } catch (error) {
@@ -115,10 +135,12 @@ app.delete('/deletephoto' ,async (req, res) => {
 
         console.log("HERERERERE");
         
-        const { id } = req.body; 
+        const { id, page, number } = req.body; 
         console.log("photo to be deleted is "+ id)
         //const photo_to_delete = await photosCollection.find({url: id });
-        const result = await photosCollection.deleteOne({ url: id});
+
+        //const photoNumber = parseInt(number, 10);
+        const result = await photosCollection.deleteOne({ url: id, page:page, number: number});
         console.log("hahahaha")
         if (result.deletedCount == 1) {
             res.json({ message: "photo successfully deleted"});
@@ -126,6 +148,8 @@ app.delete('/deletephoto' ,async (req, res) => {
         else{
             res.status(404).json({error: "Photo not found"});
         }
+        // reload the page after
+        console.log("done...")
     }
     catch (error) {
     console.error('Error deleting photo:', error);

@@ -3,6 +3,9 @@ import PostCard from "./components/Post"
 import React, { useState, useEffect  } from "react";
 import Popup from "./components/Popup"
 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Page1 from './Page1';
+
 import './components/Post.css';
 
 function App() {
@@ -13,11 +16,13 @@ function App() {
   const [uploadedImage, setUploadedImage] = useState(null)
  
   const [allPhotos, setAllPhotos] = useState([]);
+
+  
  
   // Fetch photos from server
   const fetchPhotos = () => {
-    console.log("Fetching photos...");
-    fetch("http://localhost:5000/photos") // starts requests and returns promise
+    console.log(`Fetching photos for page: MainPage...`);
+    fetch(`http://localhost:5000/photos?page=MainPage`) // starts requests and returns promise
       .then(res => { // when request done, run this function ( res => {...}) res stores result of fetch
         console.log("Response status:", res.status);
         if (!res.ok) {
@@ -63,6 +68,11 @@ function App() {
 
   return (
     <>
+      
+      <Router>
+      <Routes>
+        <Route path="/" element={
+
     <div className="App">
       
       <button onClick={() => {setShowPopup(true);}}>OPEN POP UP</button>
@@ -79,7 +89,7 @@ function App() {
         {allPhotos.map((photo) => (
           <div className="grid" key = {photo.url}>
              <div className="card-wrapper">
-                <PostCard  post={{ url: photo.url, IsPopupOpen:showPopup  }} />
+                <PostCard  post={{ url: photo.url, photoNum: photo.number, page: "MainPage",  IsPopupOpen:showPopup  }} />
              </div>
         </div>
       ))}
@@ -91,7 +101,11 @@ function App() {
       </div>
     
     </div>
-      
+     } />
+
+     <Route path="/Page1/:photoNum" element={<Page1 />} />
+      </Routes>
+    </Router>
     </>
 
   );

@@ -1,18 +1,21 @@
 //import './Post.css';
 
-function PostCard({post}) {
+import { useNavigate } from 'react-router-dom';
+//import Page1 from '../Page1';
 
+function PostCard({post}) {
+    const navigate = useNavigate();
     console.log("--------------------------",post.IsPopupOpen);
 
 
 
         const deletePhotoFromDB = () => {
             fetch("http://localhost:5000/deletephoto", {
-                method: "Delete",
+                method: "DELETE",
                 headers: {
                     "Content-Type": "application/json", // without this it doesnt parse res.body as JSON so backend req.body is empty
                 },
-                body: JSON.stringify({ id: post.url})
+                body: JSON.stringify({ id: post.url, page: post.page, number: post.photoNum})
 
             })
             .then(res => { // when request done, run this function ( res => {...}) res stores result of fetch
@@ -29,6 +32,10 @@ function PostCard({post}) {
             })
     
         }
+
+          const directNewPage = (photoNum) => {
+            navigate(`/Page1/${photoNum}`);
+        }
     
     
 
@@ -37,9 +44,11 @@ function PostCard({post}) {
 
     
     return <div className="post-entire"> 
-        <div className="post-frame" >
+
+        <div className="post-frame" onClick={() =>{ if (!post.IsPopupOpen){directNewPage(post.photoNum);}}} >
+           
             <div className="flip-card">
-                <div className="flip-card-inner" style={{ cursor: !post.IsPopupOpen ? 'pointer' : 'default' }}>
+                <div className={`flip-card-inner ${!post.IsPopupOpen ? 'flipped' : ''}`}>
                     <div className="flip-card-front">
                         <img 
                             src={post.url} 
