@@ -65,7 +65,18 @@ app.post("/save-photo", async (req, res) => {
     console.log("-------Photo saved:", url);
     // calls DB method to save new photo 
 
-    const nextNumber = number ?? (await photosCollection.countDocuments({ page })) + 1;
+    const lastPhoto = await photosCollection
+      .find({ page })
+      .sort({ number: -1 })   // sort descending by number
+      .limit(1)
+      .toArray();
+
+    const nextNumber = number? 
+      number: lastPhoto.length > 0 
+      ? (parseInt(lastPhoto[0].number) + 1).toString()
+      : "1";   // if no photos yet
+
+  //const nextNumber = number ?? (await photosCollection.countDocuments({ page })) + 1;
     const result = await photosCollection.insertOne({
       url,
       page, // store page name here
@@ -140,6 +151,17 @@ app.delete('/deletephoto' ,async (req, res) => {
         //const photo_to_delete = await photosCollection.find({url: id });
 
         //const photoNumber = parseInt(number, 10);
+
+         if (page=="MainPage"){
+            console.log("PHOTO IS FROM MAIN PAGE||||||||||||||||||||||||")
+            const page1="Page1";
+            const resultPics = await photosCollection.deleteMany({ page: "Page1", number: number.toString().trim() });
+
+            //const docs = await photosCollection.find({ page: "Page1", number: number.toString().trim() }).toArray();
+            //console.log("Found docs:", docs);
+            
+        }
+       
         const result = await photosCollection.deleteOne({ url: id, page:page, number: number});
         console.log("hahahaha")
         if (result.deletedCount == 1) {
@@ -148,6 +170,8 @@ app.delete('/deletephoto' ,async (req, res) => {
         else{
             res.status(404).json({error: "Photo not found"});
         }
+
+       
         // reload the page after
         console.log("done...")
     }

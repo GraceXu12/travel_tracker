@@ -3,6 +3,8 @@ import PostCard from "./components/Post"
 import React, { useState, useEffect  } from "react";
 import Popup from "./components/Popup"
 
+import './Page1.css'
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Page1 from './Page1';
 
@@ -85,10 +87,10 @@ function App() {
 
   
 
-      <div className="grid-container">
+      <div className="masonry">
         {allPhotos.map((photo) => (
-          <div className="grid" key = {photo.url}>
-             <div className="card-wrapper">
+          <div  key = {photo.url}>
+             <div className="masonry-item">
                 <PostCard  post={{ url: photo.url, photoNum: photo.number, page: "MainPage",  IsPopupOpen:showPopup  }} />
              </div>
         </div>

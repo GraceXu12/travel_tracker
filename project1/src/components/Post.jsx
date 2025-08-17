@@ -76,6 +76,22 @@ function PostCard({post}) {
                                 borderRadius: "8px",
                             }} 
                     >
+                            {!post.IsPopupOpen && 
+                                <div className="buttonContainer">
+                                    <button  style={{   marginTop: "0px",
+                                                        background: "white",
+                                                        border: "none",
+                                                        borderRadius: "50%",
+                                                        padding: 0,
+                                                        cursor: "pointer"}}  
+                                                        onClick={(e) => { e.stopPropagation(); deletePhotoFromDB()}}> 
+                                        <img 
+                                            src="https://www.svgrepo.com/show/442475/close-circle.svg"
+                                            alt="Close"
+                                            style={{ width: "30px", height: "30px" }}/>
+                                    </button>
+                                </div>}
+
                         <div className="column">
                             <p>hello</p>
                         </div>
@@ -83,13 +99,17 @@ function PostCard({post}) {
                             <p>hello2</p>
                         </div>
 
+                     
+
                     </div>
                 </div>
             </div>
         </div>  
         
-        {!post.IsPopupOpen &&<button  style={{ marginTop: "50px" }} onClick={deletePhotoFromDB}>Delete</button>}
+       
    </div>
 }
 
-export default PostCard
+
+
+export default PostCard;

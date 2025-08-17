@@ -10,6 +10,8 @@
   object-fit: cover;
   margin-bottom: 12px;
   display: block;
+
+ 
 }
 
 
@@ -21,7 +23,7 @@
 
 
 .grid {
-  margin: 20px 50px;  /* top margin, beside margin*/
+  margin: 20px 50px 100px;  /* top margin, beside margin*/
    display: inline-block;
 }
 
@@ -78,4 +80,13 @@
   
   width: 50%;
   display:inline-block;
+}
+
+
+
+.buttonContainer button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    
 }

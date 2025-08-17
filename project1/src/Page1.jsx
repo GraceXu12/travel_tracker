@@ -1,6 +1,8 @@
 import React, { useState, useEffect  } from "react";
 import PostCard from "./components/Post"
 import { useNavigate,useParams } from "react-router-dom";
+import Images from "./components/Images"
+import './Page1.css'
 
 
 
@@ -112,13 +114,13 @@ function Page1() {
            
                     <h2>Add Image:</h2>
                     <input type="file" accept="image/*" onChange={handleChange}  />
-                  <div className="grid-container">
-        {allPhotos.map((photo) => (
-          <div className="grid" key = {photo.url}>
-             <div className="card-wrapper">
-                <PostCard  post={{ url: photo.url , photoNum:photoNum , page: "Page1" }} />
-             </div>
-        </div>
+                    <div className="masonry">
+                    {allPhotos.map((photo) => (
+                    <div className="masonry-item" key = {photo.url}>
+                        
+                            <Images  post={{ url: photo.url , photoNum:photoNum , page: "Page1" }} />
+                        
+                    </div>
       ))}
 
                                 
