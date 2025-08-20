@@ -55,8 +55,8 @@ function PostCard({post}) {
                           
                             style={{ 
                                 
-                                width: "400px", 
-                                height: "250px", 
+                                //width: "400px", 
+                                //height: "250px", 
                                 objectFit: "cover", 
                                 border: "15px solid white",   // inner white border 
                                 boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)"    
@@ -68,8 +68,8 @@ function PostCard({post}) {
                     <div className="flip-card-back" 
                         style={{ 
                                 
-                                width: "400px", 
-                                height: "250px", 
+                                //width: "400px", 
+                                //height: "250px", 
                                 objectFit: "cover", 
                                 border: "15px solid white",   // inner white border 
                                 boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)", 

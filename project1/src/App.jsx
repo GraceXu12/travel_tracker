@@ -87,10 +87,10 @@ function App() {
 
   
 
-      <div className="masonry">
+      <div className="grid-container">
         {allPhotos.map((photo) => (
-          <div  key = {photo.url}>
-             <div className="masonry-item">
+          <div className="grid" key = {photo.url}>
+             <div className="card-wrapper">
                 <PostCard  post={{ url: photo.url, photoNum: photo.number, page: "MainPage",  IsPopupOpen:showPopup  }} />
              </div>
         </div>
