@@ -1,5 +1,5 @@
 .post-entire {
- 
+
 
 }
 
@@ -15,20 +15,9 @@
 }
 
 
-.grid-container{
-          clear: both;
-          padding-top: 70px;
-          text-align: center;
-        }
 
-
-.grid {
-  margin: 20px 50px 100px;  /* top margin, beside margin*/
-   display: inline-block;
-}
-
-.hoverable:hover {
-  transform: scale(1.05); /* zoom slightly */
+.hoverable {
+  transform: scale(2.0); /* zoom slightly */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); 
 }
 
@@ -54,11 +43,11 @@ display: inline-block;
 }
 
 
-
+/*
 .flip-card:hover .flip-card-inner.flipped {
   transform: rotateY(180deg);
 }
-
+*/
 
 .flip-card-front, .flip-card-back {
   position: absolute;

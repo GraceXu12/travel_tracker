@@ -3,7 +3,7 @@
 import { useNavigate } from 'react-router-dom';
 //import Page1 from '../Page1';
 
-function PostCard({post}) {
+function PostCard({post,className}) {
     const navigate = useNavigate();
     console.log("--------------------------",post.IsPopupOpen);
 
@@ -43,40 +43,28 @@ function PostCard({post}) {
 
 
     
-    return <div className="post-entire"> 
+    return <div className="post-entire " > 
 
         <div className="post-frame" onClick={() =>{ if (!post.IsPopupOpen){directNewPage(post.photoNum);}}} >
            
             <div className="flip-card">
                 <div className={`flip-card-inner ${!post.IsPopupOpen ? 'flipped' : ''}`}>
                     <div className="flip-card-front">
-                        <img 
+                        <img className={`${className}`}
                             src={post.url} 
                           
                             style={{ 
                                 
-                                //width: "400px", 
-                                //height: "250px", 
                                 objectFit: "cover", 
                                 border: "15px solid white",   // inner white border 
                                 boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)"    
                             }} 
                         />
                     </div>
-                
+                    <h2>Location: {post.location}</h2>
 
-                    <div className="flip-card-back" 
-                        style={{ 
-                                
-                                //width: "400px", 
-                                //height: "250px", 
-                                objectFit: "cover", 
-                                border: "15px solid white",   // inner white border 
-                                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)", 
-                                borderRadius: "8px",
-                            }} 
-                    >
-                            {!post.IsPopupOpen && 
+
+                    {!post.IsPopupOpen && 
                                 <div className="buttonContainer">
                                     <button  style={{   marginTop: "0px",
                                                         background: "white",
@@ -91,6 +79,19 @@ function PostCard({post}) {
                                             style={{ width: "30px", height: "30px" }}/>
                                     </button>
                                 </div>}
+                
+
+                  {/*  <div className="flip-card-back" 
+                        style={{ 
+                                
+
+                                objectFit: "cover", 
+                                border: "15px solid white",   // inner white border 
+                                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)", 
+                                borderRadius: "8px",
+                            }} 
+                    >
+                            
 
                         <div className="column">
                             <p>hello</p>
@@ -98,10 +99,11 @@ function PostCard({post}) {
                          <div className="column">
                             <p>hello2</p>
                         </div>
+                      
 
                      
 
-                    </div>
+                    </div>  */}
                 </div>
             </div>
         </div>  

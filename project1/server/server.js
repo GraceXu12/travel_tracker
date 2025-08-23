@@ -59,7 +59,8 @@ app.post("/save-photo", async (req, res) => {
       return res.status(500).json({ error: "Database not connected" });
     }
 
-    const { url, page, number } = req.body; // extract url from request body
+    const { url, page, number, location } = req.body; // extract url from request body
+    console.log("=======================Location is ", location)
     if (!url) return res.status(400).json({ error: "URL is required" });
     if (!page) return res.status(400).json({ error: "Page is required" })
     console.log("-------Photo saved:", url);
@@ -81,6 +82,7 @@ app.post("/save-photo", async (req, res) => {
       url,
       page, // store page name here
       number: nextNumber, // number each pic
+      location,
       uploadedAt: new Date()
     });
     console.log("number of photo is ",number )

@@ -1,99 +1,76 @@
-
 import { useState } from "react";
 import PostCard from './Post';
 
-function Popup({onClose}) {
-     // declare state var file with initial value null
-     // set file is funct to update state
+function Popup({ onClose }) {
     const [file, setFile] = useState(null);
     const [uploadedImageURL, setUploadedImageURL] = useState(null);
-    const [isUploading, setIsUploading] = useState(true); // disabling closing popup button (save) if upload not ready
+    const [isUploading, setIsUploading] = useState(false);
+    const [location, setLocation] = useState('');
+    const [rawFile, setRawFileState] = useState(null);
+     
+    const handleChangeInput = (e) => {
+        setLocation(e.target.value);
+    };
 
-    let uploadPromise= null;
+ 
 
+    async function uploadPic(obj, pageName, location) {
+        const data = new FormData();
+        data.append("file", obj);
+        data.append("upload_preset", "travel_diary");
 
-    async function uploadPic(obj, pageName){
-       
-        // e is event object that browser passes to even handler function 
-       
-        // creates temp URL pointing to the file
-        // saves URL in state variable file
-
-
-        const data = new FormData() // construct set of key-value pairs
-        data.append("file", obj )
-        data.append("upload_preset","travel_diary")
-       
-
-
-        // fetch() - built-in JS function to make HTTP requests ( talk to servers over internet)
-        // method: POST - sending data to server to create something new
-        // body: data - content 
-        // await - tell JS to wait until server responds to your request before moving on 
-        const res = await fetch(" https://api.cloudinary.com/v1_1/dmoiuke2e/image/upload",{
-            method:"POST" ,
+        const res = await fetch("https://api.cloudinary.com/v1_1/dmoiuke2e/image/upload", {
+            method: "POST",
             body: data
-        })
-        // waits for cloudinary's response and converts it from json to js object
-        // contains info about uploaded image including url
-        const json = await res.json()
-        //console.log("hello")
-        //console.log(json.url)
-        setUploadedImageURL(json.url)
-        
-        // send url to MangoDb through backend
-        await fetch("http://localhost:5000/save-photo", { // adjust port if needed
+        });
+
+        const json = await res.json();
+        setUploadedImageURL(json.url);
+
+        await fetch("http://localhost:5000/save-photo", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url: json.url , page: pageName})
+            body: JSON.stringify({ url: json.url, page: pageName, location: location})
         });
-        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+
         setIsUploading(false);
+        return json.url;
+    }
 
-        return json.url
-
-   
-      }
-
-
-    async function handleChange(e){
-         // e is event object that browser passes to even handler function 
+    async function handleChange(e) {
         const file = e.target.files[0];
-
-        // creates temp URL pointing to the file
-        // saves URL in state variable file
-        setFile(URL.createObjectURL(file));
-       // uploadPromise = uploadPic(file);
-        await uploadPic(file, "MainPage");
-        //await uploadPromise;
-
-    }
-
-    // uploaded image appears in main page once popup closed
-    async function handleClose(){
-        console.log("in handle close")
-        // if upload still loading wait for it to finish
-       
-        //if (uploadPromise){
-        //    console.log("------------------------")
-        //    await uploadPromise;
-        //}
-        console.log("111hahahahaahhaah");
-       
-        onClose();
+        if (file){
+            setFile(URL.createObjectURL(file));
+            setRawFileState(file);
+            console.log(rawFile,"--------------")
+        }
         
+        //await uploadPic(file, "MainPage");
     }
+
+    async function handleClose(actionType) {
+        if (actionType== "Save" && rawFile){
+
+            setIsUploading(true);
+            await uploadPic(rawFile, "MainPage", location)
+            setIsUploading(false);
+
+        }
+        console.log("+++++++++++++++++++++++++++++++++++++Location is ",location )
+        
+        onClose();
+    }
+
     return (
-       <div style={{
-                position: 'fixed',
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-                backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                backdropFilter: 'blur(4px)',
-                zIndex: 2000
-                
+        <div style={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 2000
         }}>
             <div style={{
                 position: 'absolute',
@@ -102,38 +79,67 @@ function Popup({onClose}) {
                 transform: 'translate(-50%, -50%)',
                 width: '500px',
                 height: '500px',
-              
                 backgroundColor: 'white',
                 borderRadius: '8px',
                 padding: '20px',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
                 zIndex: 1000,
-                
-                overflowY: "auto"  // enable vertical scroll is content overflow
-         
-                
+                overflowY: "auto"
             }}>
-                <button onClick={handleClose} 
-                    disabled={isUploading} 
-                    style={{                   
-                        marginLeft: 'auto',
-                        display: 'block'  
-                }}>
+
+                {/* Close Button */}
+                <button
+                    onClick={() =>{handleClose("Close")}}
+                    style={{
+                        position: 'fixed',
+                        top: '30px',
+                        right: '30px',
+                    }}
+                >
                     Close
                 </button>
-                 <div> 
+
+                {/* Save Button */}
+                <button
+                    onClick={() =>{handleClose("Save")}}
+                    disabled={!rawFile || isUploading}
+                    style={{
+                        position: 'fixed',
+                        bottom: '30px',
+                        right: '30px'
+                    }}
+                >
+                    SAVE
+                </button>
+
+                {/* File Upload Section */}
+                <div>
                     <h2>Add Image:</h2>
                     <input type="file" accept="image/*" onChange={handleChange} />
                 </div>
-                <div >
-                     {file && <PostCard post={{ url:file,IsPopupOpen: true}}/>}
-                </div>
-               
 
+                {/* Image Preview */}
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {file && <PostCard post={{ url: file, IsPopupOpen: true }} />}
+                </div>
+
+                {/* Form for Place/Location */}
+                <div>
+                  
+                        <label htmlFor="location">Place:</label><br />
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            value={location}
+                            onChange={handleChangeInput}
+                        /><br />
+                       
+                  
+                </div>
             </div>
-                
         </div>
-    )
+    );
 }
 
-export default Popup
+export default Popup;

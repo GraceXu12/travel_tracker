@@ -10,12 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@maptiler/sdk": "^3.7.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "leaflet": "^1.9.4",
     "mangodb": "^1.0.0",
     "mongodb": "^6.18.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router-dom": "^7.8.0"
+    "react-leaflet": "^5.0.0",
+    "react-router-dom": "^7.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
