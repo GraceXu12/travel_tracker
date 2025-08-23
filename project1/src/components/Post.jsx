@@ -34,7 +34,8 @@ function PostCard({post,className}) {
         }
 
           const directNewPage = (photoNum) => {
-            navigate(`/Page1/${photoNum}`);
+            navigate(`/Page1/${photoNum}`, {
+                state: { location: post.location }})
         }
     
     

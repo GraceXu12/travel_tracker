@@ -5,6 +5,9 @@ import Images from "./components/Images"
 import './Page1.css'
 
 
+import { useLocation } from 'react-router-dom';
+
+
 
 
 function Page1() {
@@ -24,6 +27,10 @@ function Page1() {
   const handleRedirect = () => {
     navigate("/"); // "/" is your main page route
   };
+
+
+  const location = useLocation();
+  const photoLocation = location.state?.location;
 
  async function uploadPic(obj, pageName){
        
@@ -107,7 +114,7 @@ function Page1() {
   
     return (
         <div>
-            <h1>Page 1</h1>
+            <h1>Location: {photoLocation}</h1>
 
              <button onClick={handleRedirect}>Go Main Page</button>
 
