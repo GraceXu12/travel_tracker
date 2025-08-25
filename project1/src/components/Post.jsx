@@ -49,20 +49,18 @@ function PostCard({post,className}) {
         <div className="post-frame" onClick={() =>{ if (!post.IsPopupOpen){directNewPage(post.photoNum);}}} >
            
             <div className="flip-card">
-                <div className={`flip-card-inner ${!post.IsPopupOpen ? 'flipped' : ''}`}>
+           
                     <div className="flip-card-front">
                         <img className={`${className}`}
                             src={post.url} 
                           
-                            style={{ 
-                                
-                                objectFit: "cover", 
-                                border: "15px solid white",   // inner white border 
-                                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)"    
-                            }} 
+                            
                         />
+                              <h3 className="location-text">
+                                📍{post.location}
+                              </h3>
                     </div>
-                    <h2>Location: {post.location}</h2>
+                 
 
 
                     {!post.IsPopupOpen && 
@@ -105,7 +103,7 @@ function PostCard({post,className}) {
                      
 
                     </div>  */}
-                </div>
+             
             </div>
         </div>  
         

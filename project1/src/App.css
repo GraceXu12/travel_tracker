@@ -45,13 +45,13 @@
 }
 .grid-container{
           clear: both;
-          padding-top: 70px;
+          padding-top: 0px;
           text-align: center;
         }
 
 
 .grid {
-  margin: 20px auto 100px;  /* top margin, beside margin*/
+  margin: 0px auto 10px;  /* top margin, beside margin*/
    display: inline-block;
 }
 /* Full height flexbox container */
@@ -87,19 +87,25 @@
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 0;
+   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+ 
+
+  
 }
 
 /* Add padding to the left pane so that content isn't hidden behind the fixed top bar */
 .left-pane {
   padding-top: 70px; /* Account for the top bar */
+}
+
+
+Marker:hover {
+
 }
 
 

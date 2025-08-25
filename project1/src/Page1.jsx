@@ -3,6 +3,8 @@ import PostCard from "./components/Post"
 import { useNavigate,useParams } from "react-router-dom";
 import Images from "./components/Images"
 import './Page1.css'
+import './App.css'
+
 
 
 import { useLocation } from 'react-router-dom';
@@ -113,26 +115,35 @@ function Page1() {
 
   
     return (
-        <div>
-            <h1>Location: {photoLocation}</h1>
-
-             <button onClick={handleRedirect}>Go Main Page</button>
-
+        <div style={{ position: 'fixed', top: "78px", left: "15px",   background: 'white', zIndex: 1000 }} >
            
-                    <h2>Add Image:</h2>
-                    <input type="file" accept="image/*" onChange={handleChange}  />
-                    <div className="masonry">
-                    {allPhotos.map((photo) => (
-                    <div className="masonry-item" key = {photo.url}>
-                        
-                            <Images  post={{ url: photo.url , photoNum:photoNum , page: "Page1" }} />
-                        
-                    </div>
-      ))}
 
-                                
-        </div>
-         </div>
+            <div className="topBarStyles">
+          
+               <button className="BackButton" onClick={handleRedirect}>Back</button>
+                    <h1 style={{ margin: 0, textAlign: 'center' }}>{photoLocation}</h1>
+                    
+                    <input style={{  display:'none'}}
+                           id="fileUpload" type="file" accept="image/*" onChange={handleChange}  />
+                           <label htmlFor="fileUpload" className="plus-button">+</label>
+            
+            
+            </div>
+           
+             <div >
+
+
+           < div >
+                  <div className="masonry"  >
+                  {allPhotos.map((photo) => (
+                    <div className="masonry-item" key = {photo.url}>
+                          <Images  post={{ url: photo.url , photoNum:photoNum , page: "Page1" }} />         
+                    </div>
+                    ))}                        
+                </div>
+              </div> 
+              </div>
+      </div>
     );
 };
 

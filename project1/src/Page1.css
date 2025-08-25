@@ -1,20 +1,68 @@
+.masonry-container {
+  
+  padding-top: 64px; /* same as top bar height */
+ background: rgba(255, 0, 0, 0.05); 
+  
+}
 .masonry {
+  
   column-count: 4; /* Number of columns */
-  column-gap: 20px; /* Space between columns */
-  margin-top: 30px
+  column-gap: 15px; /* Space between columns */
+  /*margin-top: 3px*/
+
+
  
 }
 
 .masonry-item {
   break-inside: avoid; /* prevents item from being split into two columns */
-  margin-bottom: 30px; 
+  margin-bottom: 15px; 
+  
+
   
 }
 
 .masonry-item img {
-  width: 100%;
-   max-width: 250px;
+ 
+   max-width: 301px;
   height: auto;
   border-radius: 8px;
   display: block;
 }
+
+
+.plus-button {
+  color: black;
+  border: black;
+  background-color:coral;
+  font-size: 24px;
+  position: absolute;
+  right: 15px;
+  width: 30px;
+  text-align: center;
+  height:30px;
+   line-height: 28px;
+
+
+}
+
+.BackButton {
+  color: black;
+  border: black;
+  background-color:rgb(43, 225, 228);
+  font-size: 10px;
+  position: absolute;
+  left: 15px;
+  width: 45px;
+  text-align: center;
+  height:30px;
+   line-height: 28px;
+
+
+}
+
+
+
+
+
+

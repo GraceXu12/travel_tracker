@@ -1,23 +1,15 @@
 .post-entire {
+  display: flex;
+  flex-wrap: wrap;
+  
+  
 
-
-}
-
-.post-frame img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
-  margin-bottom: 12px;
-  display: block;
-
- 
 }
 
 
 
 .hoverable {
-  transform: scale(2.0); /* zoom slightly */
+  /*transform: scale(1.1);  zoom slightly */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); 
 }
 
@@ -26,7 +18,7 @@
 .flip-card {
   background-color: transparent;
 
-   display: inline-block;
+   display: block;
   perspective: 1000px;
   max-width: 400px;   /* card can’t get bigger than this */
   min-width: 200px;   /* card won’t shrink smaller than this */
@@ -49,35 +41,40 @@ display: inline-block;
 }
 */
 
-.flip-card-front, .flip-card-back {
-  position: absolute;
-  width: auto;
-  height: auto;
-   max-width: 100%;   
-  top: 0;
-  left: 0;
-  backface-visibility: hidden;
-}
-
-.flip-card-back {
-
-                           
-  position: absolute;             /* overlays exactly the front */
-  inset: 0;                       /* top/right/bottom/left: 0 */
-  backface-visibility: hidden;
-  transform: rotateY(180deg);
-  box-sizing: border-box;
-  border: 15px solid white;       /* match the front’s border */
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-  background: white;
-}
-
 .flip-card-front {
-  position: relative;             /* stays in flow to define size */
-  backface-visibility: hidden;
-  box-sizing: border-box;
+  position: relative;
+
+  overflow: hidden;
+  display: block;
+  background: white; /* This becomes the white "bottom border" */
+  padding-bottom: 15%; /* height of white bottom strip */
+
+  border-radius: 8px;
 }
+
+
+.location-text {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #333;
+  font-weight: 600;
+  font-size: 1.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.flip-card-front img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0; /* Let container handle the border radius */
+}
+
+
 
 .column {
   

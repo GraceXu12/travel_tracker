@@ -1,6 +1,6 @@
 import './App.css';
 import PostCard from './components/Post';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef  } from 'react';
 import Popup from './components/Popup';
 import {Marker, MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -27,6 +27,8 @@ function App() {
   const [markers, setMarkers] = useState([]);
 
   const [hoveredPhotoUrl, setHoveredPhotoUrl] = useState(null);
+
+  const postCardRefs = useRef({});
 
   // Fetch photos from server
   const fetchPhotos = () => {
@@ -114,6 +116,12 @@ useEffect(() => {
     throw new Error("Location not found");
   }
 }
+  const handleHover = (photoUrl) => {
+    const el = postCardRefs.current[photoUrl];
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
 
   return (
     <>
@@ -129,10 +137,10 @@ useEffect(() => {
                     <h2>My Top Bar</h2>
                   </div>
 
-                  <div  style={{height: "100vh"}}>
+                  <div  style={{height: "100%"}}>
                     <MapContainer
                       center={[51.505, 1]}
-                      zoom={4} // 0 is the whole world, 13 is city level zoom
+                      zoom={2} // 0 is the whole world, 13 is city level zoom
                       style={{ height: '100%', width: '100%' }}
                       minZoom={2}  // ⬅️ Don't let user zoom out too far
                       maxZoom={15} // ⬅️ Don't let user zoom in too far
@@ -150,14 +158,12 @@ useEffect(() => {
                    {markers.map((marker, index) => (
                     <Marker key={index} position={marker.position}
                             eventHandlers={{
-                              mouseover: () => setHoveredPhotoUrl(marker.url),
+                              mouseover: () => {setHoveredPhotoUrl(marker.url); handleHover(marker.url);},
                               mouseout: () => setHoveredPhotoUrl(null),
                             }}
                             >
                     </Marker>
                   ))}
-
-                                        
 
                     </MapContainer>
 
@@ -170,17 +176,17 @@ useEffect(() => {
                 </div>
 
                 {/* Right Side */}
-                <div className="right-pane">
+                <div className="right-pane" >
                   <h3>Right Side Content</h3>
                   <p>This is your right-side panel. You can add more UI here.</p>
                   <div className="grid-container">
                     {allPhotos.map((photo) => (
-                      <div className="grid" key={photo.url}>
-                        <div className="card-wrapper">
+                      <div className="grid" key={photo.url} ref={el => postCardRefs.current[photo.url] = el}>
+                        <div className={`card-wrapper ${hoveredPhotoUrl === photo.url ? "hoverable" : ""}`}>
                        
                           <PostCard 
 
-                           className={hoveredPhotoUrl === photo.url ? "hoverable" : ""}
+                          
                             post={{
                               url: photo.url,
                               photoNum: photo.number,
