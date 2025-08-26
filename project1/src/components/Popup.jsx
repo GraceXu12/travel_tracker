@@ -12,8 +12,6 @@ function Popup({ onClose }) {
         setLocation(e.target.value);
     };
 
- 
-
     async function uploadPic(obj, pageName, location) {
         const data = new FormData();
         data.append("file", obj);
@@ -30,7 +28,7 @@ function Popup({ onClose }) {
         await fetch("http://localhost:5000/save-photo", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url: json.url, page: pageName, location: location})
+            body: JSON.stringify({ url: json.url, page: pageName, location: location })
         });
 
         setIsUploading(false);
@@ -39,25 +37,23 @@ function Popup({ onClose }) {
 
     async function handleChange(e) {
         const file = e.target.files[0];
-        if (file){
+        if (file) {
             setFile(URL.createObjectURL(file));
             setRawFileState(file);
-            console.log(rawFile,"--------------")
+            console.log(rawFile, "--------------");
         }
-        
-        //await uploadPic(file, "MainPage");
+
+        // await uploadPic(file, "MainPage");
     }
 
     async function handleClose(actionType) {
-        if (actionType== "Save" && rawFile){
-
+        if (actionType == "Save" && rawFile) {
             setIsUploading(true);
-            await uploadPic(rawFile, "MainPage", location)
+            await uploadPic(rawFile, "MainPage", location);
             setIsUploading(false);
-
         }
-        console.log("+++++++++++++++++++++++++++++++++++++Location is ",location )
-        
+
+        console.log("+++++++++++++++++++++++++++++++++++++Location is ", location);
         onClose();
     }
 
@@ -89,11 +85,11 @@ function Popup({ onClose }) {
 
                 {/* Close Button */}
                 <button
-                    onClick={() =>{handleClose("Close")}}
+                    onClick={() => { handleClose("Close") }}
                     style={{
                         position: 'fixed',
-                        top: '30px',
-                        right: '30px',
+                        top: '20px',
+                        right: '20px',
                     }}
                 >
                     Close
@@ -101,41 +97,93 @@ function Popup({ onClose }) {
 
                 {/* Save Button */}
                 <button
-                    onClick={() =>{handleClose("Save")}}
+                    onClick={() => { handleClose("Save") }}
                     disabled={!rawFile || isUploading}
                     style={{
                         position: 'fixed',
-                        bottom: '30px',
-                        right: '30px'
+                        bottom: '20px',
+                        right: '20px'
                     }}
                 >
                     SAVE
                 </button>
 
                 {/* File Upload Section */}
-                <div>
-                    <h2>Add Image:</h2>
-                    <input type="file" accept="image/*" onChange={handleChange} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '30px', marginLeft: '100px', marginTop: '10px' }}>
+                    <h2>ADD TRIP:</h2>
+                    <label
+                        htmlFor="file-upload"
+                        style={{
+                            display: 'inline-block',
+                            padding: '10px 20px',
+                            backgroundColor: '#5a82a8',
+                            color: 'white',
+                            borderRadius: '9999px',
+                            cursor: 'pointer',
+                            fontWeight: '600',
+                            fontSize: '14px',
+                            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                            transition: 'all 0.2s ease-in-out',
+                        }}
+                        onMouseEnter={(e) => {
+                            e.target.style.backgroundColor = '#476d8e';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = '#5a82a8';
+                        }}
+                    >
+                        📷 Choose Photo
+                    </label>
+                    <input id="file-upload" type="file" accept="image/*" onChange={handleChange} style={{ display: 'none' }} />
                 </div>
 
                 {/* Image Preview */}
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    {file && <PostCard post={{ url: file, IsPopupOpen: true }} />}
+                <div
+                    style={{
+                        maxWidth: '300px',
+                        margin: '0 auto',
+                        position: 'relative',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+                    }}
+                >
+                    <div>
+                        {file && <PostCard post={{ url: file, IsPopupOpen: true }} />}
+                    </div>
+                    <div
+                        style={{
+                            position: 'absolute',
+                            bottom: '0%',
+                            left: '2px',
+                            right: '2px',
+                            padding: '6px 12px',
+                            zIndex: 10,
+                        }}
+                    >
+                        {file && (
+                            <input
+                                type="text"
+                                id="location"
+                                name="location"
+                                value={location}
+                                placeholder="LOCATION"
+                                onChange={handleChangeInput}
+                                style={{
+                                    width: '100%',
+                                    padding: '8px',
+                                    borderRadius: '4px',
+                                    border: '1px solid #ccc',
+                                    fontSize: '14px',
+                                    outline: 'none',
+                                    boxSizing: 'border-box',
+                                }}
+                            />
+                        )}
+                    </div>
                 </div>
 
-                {/* Form for Place/Location */}
                 <div>
-                  
-                        <label htmlFor="location">Place:</label><br />
-                        <input
-                            type="text"
-                            id="location"
-                            name="location"
-                            value={location}
-                            onChange={handleChangeInput}
-                        /><br />
-                       
-                  
+                    {/* Reserved space for future content */}
                 </div>
             </div>
         </div>

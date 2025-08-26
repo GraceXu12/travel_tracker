@@ -54,8 +54,11 @@ function Images({post}) {
                             <img 
                                 src="https://www.svgrepo.com/show/442475/close-circle.svg"
                                 alt="Close"
-                                style={{ width: "30px", height: "30px" }}
-                            />
+                                sstyle={{ 
+  width: "30px", 
+  height: "30px", 
+  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)" 
+}}/>
                         </button>
                     </div>
                 </div>

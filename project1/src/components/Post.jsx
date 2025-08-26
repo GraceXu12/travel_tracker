@@ -1,116 +1,205 @@
-//import './Post.css';
+import { useState } from "react";
+import PostCard from './Post';
 
-import { useNavigate } from 'react-router-dom';
-//import Page1 from '../Page1';
+function Popup({ onClose }) {
+    const [file, setFile] = useState(null);
+    const [uploadedImageURL, setUploadedImageURL] = useState(null);
+    const [isUploading, setIsUploading] = useState(false);
+    const [location, setLocation] = useState('');
+    const [rawFile, setRawFileState] = useState(null);
 
-function PostCard({post,className}) {
-    const navigate = useNavigate();
-    console.log("--------------------------",post.IsPopupOpen);
+    const handleChangeInput = (e) => {
+        setLocation(e.target.value);
+    };
 
+    async function uploadPic(obj, pageName, location) {
+        const data = new FormData();
+        data.append("file", obj);
+        data.append("upload_preset", "travel_diary");
 
+        const res = await fetch("https://api.cloudinary.com/v1_1/dmoiuke2e/image/upload", {
+            method: "POST",
+            body: data
+        });
 
-        const deletePhotoFromDB = () => {
-            fetch("http://localhost:5000/deletephoto", {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json", // without this it doesnt parse res.body as JSON so backend req.body is empty
-                },
-                body: JSON.stringify({ id: post.url, page: post.page, number: post.photoNum})
+        const json = await res.json();
+        setUploadedImageURL(json.url);
 
-            })
-            .then(res => { // when request done, run this function ( res => {...}) res stores result of fetch
-            console.log("Response status:", res.status);
-            if (!res.ok) {
-              throw new Error('Failed to delete');
-            }
-            return res.json();
-            })
-            // return message of server side first
-            // then refresh page
-            .then(data => {
-                window.location.reload();
-            })
-    
+        await fetch("http://localhost:5000/save-photo", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: json.url, page: pageName, location: location })
+        });
+
+        setIsUploading(false);
+        return json.url;
+    }
+
+    async function handleChange(e) {
+        const file = e.target.files[0];
+        if (file) {
+            setFile(URL.createObjectURL(file));
+            setRawFileState(file);
+            console.log(rawFile, "--------------");
         }
 
-          const directNewPage = (photoNum) => {
-            navigate(`/Page1/${photoNum}`, {
-                state: { location: post.location }})
+        //await uploadPic(file, "MainPage");
+    }
+
+    async function handleClose(actionType) {
+        if (actionType == "Save" && rawFile) {
+            setIsUploading(true);
+            await uploadPic(rawFile, "MainPage", location);
+            setIsUploading(false);
         }
-    
-    
+        console.log("+++++++++++++++++++++++++++++++++++++Location is ", location);
 
-    let flipped = false
+        onClose();
+    }
 
+    return (
+        <div style={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 2000
+        }}>
+            <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '500px',
+                height: '500px',
+                backgroundColor: 'white',
+                borderRadius: '8px',
+                padding: '20px',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                zIndex: 1000,
+                overflowY: "auto"
+            }}>
 
-    
-    return <div className="post-entire " > 
+                {/* Close Button */}
+                <button
+                    onClick={() => { handleClose("Close") }}
+                    style={{
+                        position: 'fixed',
+                        top: '20px',
+                        right: '20px',
+                    }}
+                >
+                    Close
+                </button>
 
-        <div className="post-frame" onClick={() =>{ if (!post.IsPopupOpen){directNewPage(post.photoNum);}}} >
-           
-            <div className="flip-card">
-           
-                    <div className="flip-card-front">
-                        <img className={`${className}`}
-                            src={post.url} 
-                          
-                            
-                        />
-                              <h3 className="location-text">
-                                📍{post.location}
-                              </h3>
-                    </div>
-                 
+                {/* Save Button */}
+                <button
+                    onClick={() => { handleClose("Save") }}
+                    disabled={!rawFile || isUploading}
+                    style={{
+                        position: 'fixed',
+                        bottom: '20px',
+                        right: '20px'
+                    }}
+                >
+                    SAVE
+                </button>
 
-
-                    {!post.IsPopupOpen && 
-                                <div className="buttonContainer">
-                                    <button  style={{   marginTop: "0px",
-                                                        background: "white",
-                                                        border: "none",
-                                                        borderRadius: "50%",
-                                                        padding: 0,
-                                                        cursor: "pointer"}}  
-                                                        onClick={(e) => { e.stopPropagation(); deletePhotoFromDB()}}> 
-                                        <img 
-                                            src="https://www.svgrepo.com/show/442475/close-circle.svg"
-                                            alt="Close"
-                                            style={{ width: "30px", height: "30px" }}/>
-                                    </button>
-                                </div>}
-                
-
-                  {/*  <div className="flip-card-back" 
-                        style={{ 
-                                
-
-                                objectFit: "cover", 
-                                border: "15px solid white",   // inner white border 
-                                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)", 
-                                borderRadius: "8px",
-                            }} 
+                {/* File Upload Section */}
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '30px',
+                    marginLeft: '100px',
+                    marginTop: '10px'
+                }}>
+                    <h2>ADD TRIP:</h2>
+                    <label
+                        htmlFor="file-upload"
+                        style={{
+                            display: 'inline-block',
+                            padding: '10px 20px',
+                            backgroundColor: '#5a82a8',
+                            color: 'white',
+                            borderRadius: '9999px',
+                            cursor: 'pointer',
+                            fontWeight: '600',
+                            fontSize: '14px',
+                            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                            transition: 'all 0.2s ease-in-out',
+                        }}
+                        onMouseEnter={(e) => {
+                            e.target.style.backgroundColor = '#476d8e';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = '#5a82a8';
+                        }}
                     >
-                            
+                        📷 Choose Photo
+                    </label>
+                    <input
+                        id="file-upload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleChange}
+                        style={{ display: 'none' }}
+                    />
+                </div>
 
-                        <div className="column">
-                            <p>hello</p>
-                        </div>
-                         <div className="column">
-                            <p>hello2</p>
-                        </div>
-                      
+                {/* Image Preview */}
+                <div
+                    style={{
+                        maxWidth: '300px',
+                        margin: '0 auto',
+                        position: 'relative',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+                    }}
+                >
+                    <div>
+                        {file && <PostCard post={{ url: file, IsPopupOpen: true }} />}
+                    </div>
+                    <div
+                        style={{
+                            position: 'absolute',
+                            bottom: '0%',
+                            left: '2px',
+                            right: '2px',
+                            padding: '6px 12px',
+                            zIndex: 10,
+                        }}
+                    >
+                        {file && (
+                            <input
+                                type="text"
+                                id="location"
+                                name="location"
+                                value={location}
+                                placeholder="LOCATION"
+                                onChange={handleChangeInput}
+                                style={{
+                                    width: '100%',
+                                    padding: '8px',
+                                    borderRadius: '4px',
+                                    border: '1px solid #ccc',
+                                    fontSize: '14px',
+                                    outline: 'none',
+                                    boxSizing: 'border-box',
+                                }}
+                            />
+                        )}
+                    </div>
+                </div>
 
-                     
-
-                    </div>  */}
-             
+                <div>
+                    {/* Reserved space for future content */}
+                </div>
             </div>
-        </div>  
-        
-       
-   </div>
+        </div>
+    );
 }
 
-
-
-export default PostCard;
+export default Popup;

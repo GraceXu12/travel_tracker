@@ -28,41 +28,63 @@
   height: auto;
   border-radius: 8px;
   display: block;
+  
 }
 
 
 .plus-button {
-  color: black;
-  border: black;
-  background-color:coral;
-  font-size: 24px;
-  position: absolute;
-  right: 15px;
-  width: 30px;
+  right:20px;
+  
+ position: absolute;
+  padding: 10px 20px;
+  background-color: #5a82a8;
+  color: white;
+  border: 2px solid #5a82a8;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
   text-align: center;
-  height:30px;
-   line-height: 28px;
-
 
 }
+
+
+
 
 .BackButton {
-  color: black;
-  border: black;
-  background-color:rgb(43, 225, 228);
-  font-size: 10px;
-  position: absolute;
-  left: 15px;
-  width: 45px;
+   left: 20px;
+ position: absolute;
+  padding: 10px 20px;
+  background-color: #5a82a8;
+  color: white;
+  border: 2px solid #5a82a8;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
   text-align: center;
-  height:30px;
-   line-height: 28px;
-
-
 }
 
 
 
+.page1-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden; /* disables page scroll */
+}
 
+
+
+.masonry-scroll-container {
+ margin-top: 64px;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
 
 

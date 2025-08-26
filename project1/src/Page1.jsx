@@ -115,35 +115,27 @@ function Page1() {
 
   
     return (
-        <div style={{ position: 'fixed', top: "78px", left: "15px",   background: 'white', zIndex: 1000 }} >
-           
+      <div className="page1-container">
+  <div className="topBarStyles">
+    <button className="BackButton" onClick={handleRedirect}>Back</button>
+    <h1 style={{ margin: 0, textAlign: 'center' }}>{photoLocation}</h1>
 
-            <div className="topBarStyles">
-          
-               <button className="BackButton" onClick={handleRedirect}>Back</button>
-                    <h1 style={{ margin: 0, textAlign: 'center' }}>{photoLocation}</h1>
-                    
-                    <input style={{  display:'none'}}
-                           id="fileUpload" type="file" accept="image/*" onChange={handleChange}  />
-                           <label htmlFor="fileUpload" className="plus-button">+</label>
-            
-            
-            </div>
-           
-             <div >
+    <input style={{ display: 'none' }} id="fileUpload" type="file" accept="image/*" onChange={handleChange} />
+    <label htmlFor="fileUpload" className="plus-button">+</label>
+  </div>
 
+  <div className="masonry-scroll-container">
+    <div className="masonry">
+      {allPhotos.map((photo) => (
+        <div className="masonry-item" key={photo.url}>
+          <Images post={{ url: photo.url, photoNum: photoNum, page: "Page1" }} />
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
 
-           < div >
-                  <div className="masonry"  >
-                  {allPhotos.map((photo) => (
-                    <div className="masonry-item" key = {photo.url}>
-                          <Images  post={{ url: photo.url , photoNum:photoNum , page: "Page1" }} />         
-                    </div>
-                    ))}                        
-                </div>
-              </div> 
-              </div>
-      </div>
+     
     );
 };
 
