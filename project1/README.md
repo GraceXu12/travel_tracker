@@ -1,12 +1,35 @@
-# React + Vite
+# Project SUmmary
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+A full-stack travel diary app where users can upload and view photos linked to specific trip locations displayed on an interactive map. The app lets users organize trips, explore photo albums, and easily navigate between different destinations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Motivation
+I love traveling and have collected tons of photos from my trips over the years. I wanted a way to see all those memories together on a map, so I built this app to upload and visualize my travel photos by location. It was also a great chance for me to dive into full-stack development and learn how to connect the frontend, backend, and cloud services.
 
-## Expanding the ESLint configuration
+# Tools & Technologies I Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Frontend:
+
+- React.js (for building UI components and managing state)
+- React Router (for navigation between pages)
+- Leaflet (for interactive maps)
+- CSS (for styling, including custom popups and grid layout)
+
+## Backend:
+- Node.js and Express.js (to build the server and API endpoints)
+- MongoDB Atlas (cloud-hosted NoSQL database)
+- MongoDB Node.js Driver (to connect Node.js backend with MongoDB)
+- CORS middleware (to handle cross-origin requests)
+
+# Cloud Service:
+- Cloudinary (to upload and host images securely on the cloud)
+
+# Challenges
+- Figuring out how to integrate Cloudinary image uploads with the backend API
+- Managing asynchronous data fetching and state updates in React
+- Implementing map markers and syncing them with photo data
+- Handling CORS issues between frontend and backend servers
+- Learning how to deploy and connect a full-stack app for the first time
+
+- ![Demo GIF](./path-to-your-demo.gif)
+
