@@ -115,7 +115,7 @@ function App() {
               <div className="App">
                 {/* Left Side */}
                 <div className="topBarStyles">
-                  <h1>ALBUMS</h1>
+                  <h2>ALBUMS</h2>
 
                   <button
                     style={{
