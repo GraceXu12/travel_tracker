@@ -35,4 +35,10 @@ I love traveling and have collected tons of photos from my trips over the years.
 - Handling CORS issues between frontend and backend servers
 - Learning how to deploy and connect a full-stack app for the first time
 
+# Future Improvements
+- Add user login to support multiple users
+- Improve location accuracy with autocomplete or a better geolocation API
+- Make trips and photo grid editable from the UI
+- Enhance mobile responsiveness
+- Add features like tracking number of countries visited ...
 
