@@ -1,3 +1,4 @@
+# ✈️ WANDERLOG - LOGBOOK FOR ALL YOUR TRAVELS
 # Project Summary
 A full-stack travel diary app where users can upload and view photos linked to specific trip locations displayed on an interactive map. The app lets users organize trips, explore photo albums, and easily navigate between different destinations.
 
