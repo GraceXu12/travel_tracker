@@ -3,7 +3,7 @@ A full-stack travel diary app where users can upload and view photos linked to s
 
 # DEMO
 <p align="center">
-  <img src="./project1/DEMO1.gif" width="300" alt="Demo GIF">
+  <img src="./project1/DEMO1.gif" width="500" alt="Demo GIF">
 </p>
 
 
