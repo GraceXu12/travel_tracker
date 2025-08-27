@@ -31,4 +31,4 @@ I love traveling and have collected tons of photos from my trips over the years.
 - Handling CORS issues between frontend and backend servers
 - Learning how to deploy and connect a full-stack app for the first time
 
-- ![Demo GIF](./path-to-your-demo.gif)
+![Demo GIF](./project1/DEMO.gif)
