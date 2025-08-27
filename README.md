@@ -1,7 +1,11 @@
 # Project Summary
-
-
 A full-stack travel diary app where users can upload and view photos linked to specific trip locations displayed on an interactive map. The app lets users organize trips, explore photo albums, and easily navigate between different destinations.
+
+# DEMO
+<p align="center">
+  <img src="./project1/DEMO.gif" width="300" alt="Demo GIF">
+</p>
+
 
 # Motivation
 I love traveling and have collected tons of photos from my trips over the years. I wanted a way to see all those memories together on a map, so I built this app to upload and visualize my travel photos by location. It was also a great chance for me to dive into full-stack development and learn how to connect the frontend, backend, and cloud services.
@@ -31,4 +35,4 @@ I love traveling and have collected tons of photos from my trips over the years.
 - Handling CORS issues between frontend and backend servers
 - Learning how to deploy and connect a full-stack app for the first time
 
-![Demo GIF](./project1/DEMO.gif)
+
